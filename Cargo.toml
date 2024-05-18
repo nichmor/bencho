@@ -9,7 +9,7 @@ maintainer = ["Nichita Morcotilo nmorkotilo@gmail.com"]
 anyhow = "1.0.85"
 backon = { version = "*" }
 fontdb = { version = "*" }
-hyperfine-lib = { path = "../hyperfine-lib" }
+hyperfine-lib = { git = "https://github.com/nichmor/hyperfine-lib.git" }
 miette = { version = "*" }
 poloto = { version = "*" }
 resvg = { version = "0.29.0" }
