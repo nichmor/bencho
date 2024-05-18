@@ -1,26 +1,10 @@
 mod run;
 
-use std::{
-    path::{Path, PathBuf},
-    // process::Command,
-    time::Duration,
-};
-
-use clap::{ArgAction, Parser, Subcommand};
+use clap::{Parser, Subcommand};
 
 use anyhow::Result;
-use backon::{BlockingRetryable, ConstantBuilder};
-use resvg::usvg_text_layout::{fontdb, TreeTextToPath};
-use run::{run};
-use serde::Deserialize;
 
-use hyperfine_lib::{
-    benchmark::{benchmark_result::BenchmarkResult, scheduler},
-    export::ExportManager,
-    options::{self, Options},
-};
-
-use hyperfine_lib::command::{Command as BenchCommand, Commands as BenchCommands};
+use run::run;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]

@@ -2,8 +2,8 @@ use std::path::{Path, PathBuf};
 
 // use miette::{IntoDiagnostic, Result};
 use anyhow::{Context, Result};
+use clap::{ArgAction, Parser};
 use resvg::usvg_text_layout::{fontdb, TreeTextToPath};
-use clap::{ArgAction, Parser, Subcommand};
 
 use hyperfine_lib::{
     benchmark::{benchmark_result::BenchmarkResult, scheduler},
@@ -13,15 +13,13 @@ use hyperfine_lib::{
 
 use hyperfine_lib::command::{Command as BenchCommand, Commands as BenchCommands};
 
-
-
 #[derive(Parser, Debug, Default)]
 #[clap(arg_required_else_help = true)]
 pub struct Args {
     /// lists of commands to benchmark
     #[arg(required = true, num_args=2..)]
     args: Vec<String>,
-    /// Perform NUM warmup runs before the actual benchmark. 
+    /// Perform NUM warmup runs before the actual benchmark.
     /// This can be used to fill (disk) caches for I/O-heavy programs.
     #[arg(long, short)]
     warmup: Option<u64>,
@@ -41,9 +39,6 @@ pub struct Args {
     #[arg(long, short)]
     cleanup: Option<String>,
 }
-
-
-
 
 pub fn run(args: Args) -> Result<()> {
     let fontdb = load_fonts();
@@ -65,13 +60,13 @@ pub fn run(args: Args) -> Result<()> {
 
     let commands = BenchCommands::from(_commands);
 
-    let mut options = Options::default();
+    let options = Options {
+        cleanup_command: args.cleanup,
+        preparation_command: args.prepare,
+        warmup_count: args.warmup.unwrap_or(0),
 
-    options.cleanup_command = args.cleanup;
-    options.preparation_command = args.prepare;
-    if let Some(warmup) = args.warmup{
-        options.warmup_count = warmup;
-    }
+        ..Default::default()
+    };
 
     let mut scheduler = scheduler::Scheduler::new(&commands, &options, &exp_manager);
 
