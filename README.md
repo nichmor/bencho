@@ -14,7 +14,7 @@ bencho 'echo 1' 'echo 2'
 ```
 
 This will generate following asset:
-![benco results](assets/benchmarks-plot.png)
+![benco results](docs/benchmarks-plot.png)
 
 
 It also support  `--prepare` and `--cleanup` args as hyperfine support.
